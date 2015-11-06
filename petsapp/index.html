@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+		<title>A Social Network for Pets</title>
+		<meta name='description' content=''>
+		<meta 'viewport' content='initial-scale=1, maximum-scale=1, width=device-width'>
+		<link rel='stylesheet' href='../bower_components/bootstrap/dist/css/bootstrap.min.css'>
+		<link rel='stylesheet' href='css/project.less.css'>
+	</head>
+	<body class='flex-container flex-vertical' ng-app='app' ng-controller='appCtrl'>
+		<div class='flex-row header' ng-include="'header.html'"></div>
+		<div class='flex-row body' ng-include="'body.html'"></div>
+		<div class='flex-row footer' ng-include="'footer.html'"></div>
+	
+		<script type='text/javascript' src='../bower_components/jquery/dist/jquery.js'></script>
+		<script type='text/javascript' src='../bower_components/bootstrap/dist/js/bootstrap.js'></script>
+		<script type='text/javascript' src='../bower_components/angular/angular.js'></script>
+		<script type='text/javascript' src='../bower_components/bootstrap/dist/js/bootstrap.min.js'></script>
+		<script type='text/javascript' src='../bower_components/moment/moment.js'></script>
+		<script type='text/javascript' src='js/project.js'></script>
+		<script>
+			var uid = get_query().uid; 
+			function get_query(){
+				var query = {}; 
+				var str = window.location.search.substring(1); 
+				var vars = str.split('&'); 
+				for (var i = 0; i < vars.length; i++){
+					var pair = vars[i].split('='); 
+					query[pair[0]] = pair[1]; 
+				}
+				console.log(query);
+				return query; 
+			}
+
+		</script>	
+	
+	</body>	
+</html>
