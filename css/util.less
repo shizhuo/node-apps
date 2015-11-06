@@ -1,0 +1,41 @@
+.center{
+	margin: auto; 
+}
+
+.middle{
+	position: relative; 
+	top: 50%; 
+	transform: translateY(-50%); 
+}
+
+.inline{
+	display: inline-block; 
+}
+
+.flex-container{
+	display: flex;
+	height: 100%; 
+	&.flex-vertical{ 
+		flex-flow: column; 
+	}
+	&.flex-horizontal{
+		flex-flow: row; 
+	}
+	.flex-row{
+		flex: 0 1 auto; 
+		
+		&.body{
+			flex: 1 1 auto;
+			position: relative;  
+		}
+	}
+	.flex-column{
+		flex: 0 1 auto; 
+		&.body{
+			flex: 1 1 auto; 
+		}
+	}
+	
+}
+
+
