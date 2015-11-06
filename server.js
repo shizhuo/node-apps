@@ -5,27 +5,37 @@ var url = require('url');
 var mime = require('mime'); 
 var logger = require('tracer').colorConsole(); 
 
-var petsapp = require(__dirname + '/petsapp/server/server.js'); 
-
 var apps = {}; 
-apps.petsapp = petsapp;  
+function check_apps(){
+	var app_list = require("./apps.json");  
+	for(var k in app_list){
+		var app = require(app_list[k]);
+		apps[k] = app;  
+	}
+}
+
+setInterval(function(){
+	check_apps(); 
+}, 5000);
+
+check_apps(); 
 
 http.createServer(function(req, res) {
 	var url_parts = url.parse(req.url, true);
 	var pathname = url_parts.pathname; 
 	var query = url_parts.query; 
-	//var uid = query['uid'];
-	var app_name = 'petsapp'; 
+	
+	//var app_name = 'petsapp'; 
+	var app_name = pathname.split('/')[1]; 
+
 	var app = apps[app_name]; 
 	var mimetype = mime.lookup(pathname); 
-	logger.log(pathname); 
 	//get event stream
 	if (req.headers.accept && req.headers.accept == 'text/event-stream') {
-		if (pathname == '/events') {
+		if (pathname =='/' +  app_name + '/events') {
 			var interval = app.sendSSE(req, res, query);
 			req.on('close', function(){
 				clearInterval(interval); 
-				logger.log('request closed from ' + req.connection.remoteAddress); 
 			}, false);
 			res.on('error', function(){
 				clearInterval(interval); 
@@ -38,6 +48,7 @@ http.createServer(function(req, res) {
 	} else { 
 		//get file
 		if (fs.existsSync(__dirname + '/' + pathname)){
+			
 			res.writeHead(200, {'Content-Type': mimetype});
 			res.write(fs.readFileSync(__dirname + '/' + pathname));
 			res.end();
