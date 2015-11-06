@@ -1,0 +1,73 @@
+create table users (
+    id integer auto_increment,
+    username varchar(30),
+    password varchar(30),
+    first varchar(20),
+    last varchar(20),
+    dob date,
+    address varchar(100),
+    gender char(1),
+    email varchar(50), 
+    telephone varchar(30),
+    self_intro varchar(100),
+    pic varchar(256),
+    primary key(id)
+) ENGINE=InnoDB;
+
+create table data (
+    id integer auto_increment,
+    owner integer, 
+    type varchar(10), 
+    path varchar(256),
+    line integer,
+    primary key(id),
+    foreign key(owner) references users(id)
+) ENGINE=InnoDB;
+
+create table tags(
+    id integer auto_increment,
+    name varchar(30),
+    primary key(id)
+) ENGINE=InnoDB;
+
+create table tagging(
+    data_id integer, 
+    tag_id integer, 
+    primary key(data_id, tag_id),
+    foreign key(data_id) references data(id),
+    foreign key(tag_id) references tags(id)
+) ENGINE=InnoDB;
+
+create table pets (
+    id integer auto_increment,
+    name varchar(30),
+    dob date,
+    gender char(1),
+    primary key(id)
+) ENGINE=InnoDB;
+    
+create table ownership (
+    user_id integer,
+    pet_id integer,
+    primary key(user_id,pet_id),
+    foreign key(user_id) references users(id),
+    foreign key(pet_id) references pets(id)
+) ENGINE=InnoDB;
+
+create table u2u (
+    user_a integer,
+    user_b integer,
+    primary key(user_a,user_b),
+    foreign key(user_a) references users(id),
+    foreign key(user_b) references users(id)
+) ENGINE=InnoDB;
+
+create table p2p(
+    pet_a integer, 
+    pet_b integer, 
+    primary key(pet_a, pet_b), 
+    foreign key(pet_a) references pets(id), 
+    foreign key(pet_b) references pets(id)
+) ENGINE=InnoDB;
+
+
